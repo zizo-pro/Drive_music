@@ -3,27 +3,32 @@ from pydub import AudioSegment
 from os import chdir , remove , listdir , rename , mkdir
 import eyed3 
 from shutil import move
+from time import sleep
 
-chdir("/media/ziad/92A816A5A81687BD/ZIZO/songs_before")
 
-song_link = input("enter song link here: ")
+chdir("/media/ziad/Turbo/zizo/songs_before")
+
+song_link = input("song link: ")
+
+
+
 song = pafy.new(song_link)
-s = song.getbestaudio(preftype="m4a")
+s = song.getbestaudio(preftype=("m4a"))
 print(s)
 size = s.get_filesize()
 sze = str(size/1024/1024)
 author = song.author
 title = song.title
 print(f"{sze[:4]} MB")
+print(title)
+print(author.upper())
+s.download()
+
+sleep(5)
 
 if "VEVO" in author.upper():
     m = author.upper().find("VEVO")
     author = author.upper()[:m]
-
-print(title)
-print(author.upper())
-
-s.download()
 
 m4song = listdir()[0]
 m4songaf = m4song[:-4]
@@ -56,13 +61,13 @@ file.tag.save()
 
 rename(mp3song,f"{title.upper()}.mp3")
 
-chdir("/media/ziad/92A816A5A81687BD/ZIZO/songs")
+chdir("/media/ziad/Turbo/zizo/songs")
 
 current_files = listdir()
 
 if author.upper() in current_files:
-    move(f"/media/ziad/92A816A5A81687BD/ZIZO/songs_before/{title.upper()}.mp3",f"/media/ziad/92A816A5A81687BD/ZIZO/songs/{author.upper()}/{title.upper()}.mp3")
+    move(f"/media/ziad/Turbo/zizo/songs_before/{title.upper()}.mp3",f"/media/ziad/Turbo/zizo/songs/{author.upper()}/{title.upper()}.mp3")
 
 else:
-    mkdir(f"/media/ziad/92A816A5A81687BD/ZIZO/songs/{author.upper()}")
-    move(f"/media/ziad/92A816A5A81687BD/ZIZO/songs_before/{title.upper()}.mp3",f"/media/ziad/92A816A5A81687BD/ZIZO/songs/{author.upper()}/{title.upper()}.mp3")
+    mkdir(f"/media/ziad/Turbo/zizo/songs/{author.upper()}")
+    move(f"/media/ziad/Turbo/zizo/songs_before/{title.upper()}.mp3",f"/media/ziad/Turbo/zizo/songs/{author.upper()}/{title.upper()}.mp3")
